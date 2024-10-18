@@ -11,3 +11,5 @@
 
 #!.yarn/cache
 .pnp.*
+.yarn 
+/node_modules
