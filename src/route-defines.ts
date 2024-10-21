@@ -44,6 +44,36 @@ const ROUTE_PATHS: RoutesConfig = {
             GET: {authRequired: false},
             POST: {authRequired: false}
         }
+    },
+    USER_SERVICE: {
+        path:'/v1/users',
+        target: configs.userServiceURL,
+        methods:{
+            GET: {
+                authRequired: true, roles:["user","admin"]
+            },
+            POST: {
+                authRequired: true, roles: ["user","admin"]
+            }
+        },
+        nestedRoutes:[
+            {
+                path:"/health",
+                methods:{
+                    GET: {
+                        authRequired: false,
+                    }
+                }
+            },
+            {
+                path: "/me",
+                methods:{
+                    GET: {
+                        authRequired: true,roles: ["user","admin"]
+                    }
+                }
+            }
+        ]
     }
 }
 export default ROUTE_PATHS;

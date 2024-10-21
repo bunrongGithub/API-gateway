@@ -5,7 +5,11 @@ type Configs = {
     port: number;
     env: string;
     authServiceURL: string;
-    productServicURL: string
+    productServicURL: string;
+    userServiceURL: string;
+    clientURL: string;
+    awsCognitoUserPoolId: string;
+    awsCognitoClientId: string;
 }
 const loadConfig = ():Configs => {
     const env = process.env.NODE_ENV || 'dev';
@@ -16,6 +20,10 @@ const loadConfig = ():Configs => {
         PORT: Joi.number().default(6000),
         AUTH_SERVICE_URL: Joi.string().required(),
         PRODUCT_SERVICE_URL: Joi.string().required(),
+        USER_SERVICE_URL: Joi.string().required(),
+        CLIENT_URL: Joi.string().required(),
+        AWS_COGNITO_USER_POOL_ID: Joi.string().required(),
+        AWS_COGNITO_CLIENT_ID: Joi.string().required(),
     }).unknown().required();
     const { value: envVars, error } = envVarsSchema.validate(process.env);
     if (error) {
@@ -26,6 +34,10 @@ const loadConfig = ():Configs => {
         port: envVars.PORT,
         authServiceURL: envVars.AUTH_SERVICE_URL,
         productServicURL: envVars.PRODUCT_SERVICE_URL,
+        userServiceURL: envVars.USER_SERVICE_URL,
+        clientURL: envVars.CLIENT_URL,
+        awsCognitoUserPoolId: envVars.AWS_COGNITO_USER_POOL_ID,
+        awsCognitoClientId: envVars.AWS_COGNITO_CLIENT_ID,
     }
 }
 const configs = loadConfig();
