@@ -36,6 +36,14 @@ const ROUTE_PATHS: RoutesConfig = {
                 }
             }
         ]
+    },
+    PRODUCT_SERVICE:{
+        path:"/v1/product",
+        target: configs.productServicURL,
+        methods: {
+            GET: {authRequired: false},
+            POST: {authRequired: false}
+        }
     }
 }
 export default ROUTE_PATHS;

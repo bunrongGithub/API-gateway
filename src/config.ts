@@ -5,6 +5,7 @@ type Configs = {
     port: number;
     env: string;
     authServiceURL: string;
+    productServicURL: string
 }
 const loadConfig = ():Configs => {
     const env = process.env.NODE_ENV || 'dev';
@@ -13,7 +14,8 @@ const loadConfig = ():Configs => {
     const envVarsSchema = Joi.object({
         NODE_ENV: Joi.string().required(),
         PORT: Joi.number().default(6000),
-        AUTH_SERVICE_URL: Joi.string().required()
+        AUTH_SERVICE_URL: Joi.string().required(),
+        PRODUCT_SERVICE_URL: Joi.string().required(),
     }).unknown().required();
     const { value: envVars, error } = envVarsSchema.validate(process.env);
     if (error) {
@@ -22,7 +24,8 @@ const loadConfig = ():Configs => {
     return {
         env: envVars.NODE_ENV,
         port: envVars.PORT,
-        authServiceURL: envVars.AUTH_SERVICE_URL
+        authServiceURL: envVars.AUTH_SERVICE_URL,
+        productServicURL: envVars.PRODUCT_SERVICE_URL,
     }
 }
 const configs = loadConfig();
