@@ -10,6 +10,9 @@ type Configs = {
     clientURL: string;
     awsCognitoUserPoolId: string;
     awsCognitoClientId: string;
+    awsCloudwatchLogsRegion:string;
+    awsAccessKeyId: string;
+    awsSecretAccessKey: string;
 }
 const loadConfig = ():Configs => {
     const env = process.env.NODE_ENV || 'dev';
@@ -24,6 +27,10 @@ const loadConfig = ():Configs => {
         CLIENT_URL: Joi.string().required(),
         AWS_COGNITO_USER_POOL_ID: Joi.string().required(),
         AWS_COGNITO_CLIENT_ID: Joi.string().required(),
+        AWS_CLOUDWATCH_LOGS_REGION: Joi.string().required(),
+        AWS_CLOUDWATCH_LOGS_GROUP_NAME: Joi.string().required(),
+        AWS_ACCESS_KEY_ID: Joi.string().required(),
+        AWS_SECRET_ACCESS_KEY: Joi.string().required(),
     }).unknown().required();
     const { value: envVars, error } = envVarsSchema.validate(process.env);
     if (error) {
@@ -38,6 +45,9 @@ const loadConfig = ():Configs => {
         clientURL: envVars.CLIENT_URL,
         awsCognitoUserPoolId: envVars.AWS_COGNITO_USER_POOL_ID,
         awsCognitoClientId: envVars.AWS_COGNITO_CLIENT_ID,
+        awsAccessKeyId: envVars.AWS_ACCESS_KEY_ID,
+        awsCloudwatchLogsRegion: envVars.AWS_CLOUDWATCH_LOGS_REGION,
+        awsSecretAccessKey: envVars.AWS_SECRET_ACCESS_KEY,
     }
 }
 const configs = loadConfig();

@@ -17,10 +17,10 @@ export interface RoutesConfig{
 const ROUTE_PATHS: RoutesConfig = {
     AUTH_SERVICE: {
         path: "/v1/auth",
-        target: configs?.authServiceURL,
+        target: configs?.productServicURL,
         nestedRoutes: [
             {
-                path: '/health',
+                path: '/google/login',
                 methods: {
                     GET: {
                         authRequired: false
@@ -38,7 +38,7 @@ const ROUTE_PATHS: RoutesConfig = {
         ]
     },
     PRODUCT_SERVICE:{
-        path:"/v1/product",
+        path:"/v1/items",
         target: configs.productServicURL,
         methods: {
             GET: {authRequired: false},

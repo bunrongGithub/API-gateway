@@ -35,13 +35,13 @@ const authenticateToken = async (req: Request, _res: Response, next: NextFunctio
         const { methodConfig } = req;
         if (methodConfig.authRequired) {
             const token = req.cookies?.['access_token'];
-            if (!token) { throw new Error(`Please login to continue`) };
+            if (!token) {  new Error(`Please login to continue`) }
 
             const payload = await verifier.verify(token);
-            if (!payload) { throw new Error; }
+            if (!payload) {  new Error; }
 
             let role: string[] = [];
-            const userPayload = await jwtDecode(req.cookies?.['id_token']);
+            const userPayload = jwtDecode(req.cookies?.['id_token']);
             console.log("userPayload", userPayload);
             // @ts-ignore
             if (userPayload['cognito:username'].includes('google')) {
@@ -121,6 +121,7 @@ const findRouteConfig = (path: string, routeConfigs: RouteConfig): RouteConfig |
 // Step 3: Attach the route configuration and method config to the request object
 const routeConfigMiddleware = (req: Request, _res: Response, next: NextFunction) => {
     const { path, method } = req;
+    console.log(path)
     // Step 1
     let routeConfig = null;
     for (const key in ROUTE_PATHS) {
