@@ -16,7 +16,7 @@ export interface RoutesConfig{
 }
 const ROUTE_PATHS: RoutesConfig = {
     AUTH_SERVICE: {
-        path: "/v1/auth",
+        path: "/v1/xxx",
         target: configs?.productServicURL,
         nestedRoutes: [
             {
@@ -41,12 +41,12 @@ const ROUTE_PATHS: RoutesConfig = {
         path:"/v1/items",
         target: configs.productServicURL,
         methods: {
-            GET: {authRequired: false},
+            GET: {authRequired: true},
             POST: {authRequired: false}
         }
     },
     USER_SERVICE: {
-        path:'/v1/users',
+        path:'/v1/auth',
         target: configs.userServiceURL,
         methods:{
             GET: {
@@ -58,9 +58,9 @@ const ROUTE_PATHS: RoutesConfig = {
         },
         nestedRoutes:[
             {
-                path:"/health",
+                path:"/signinv2",
                 methods:{
-                    GET: {
+                    POST: {
                         authRequired: false,
                     }
                 }

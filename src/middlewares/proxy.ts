@@ -44,7 +44,8 @@ const proxyConfigs: ProxyConfig = {
                 logRequest(gatewayLogger, proxyReq, {
                     protocol: proxyReq.protocol,
                     host: proxyReq.getHeader('host'),
-                    path: proxyReq.path
+                    path: proxyReq.path,
+                    method:proxyReq.method
                 });
             },
             proxyRes: (_proxyRes, _req, res) => {

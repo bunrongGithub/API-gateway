@@ -25,23 +25,39 @@ const verifier = CognitoJwtVerifier.create({
     tokenUse: 'access',
     clientId: configs.awsCognitoClientId
 });
+
+
+const checkVerifyToken = async (token: string) => {
+    try {
+        const payload = await verifier.verify(token);
+        console.log(payload);
+        return payload
+    } catch (error) {
+        throw error;
+    }
+}
+// console.log(verifier)
 // TODO: implement the authenticateToken function
 // Step 1: Check if the method config requires authentication
 // Step 2: If authentication is required, check if the user is authenticated
 // Step 3: If authentication is required and the user is authenticated, attach the user to the request object
 // Step 4: If authentication is not required, call next()
 const authenticateToken = async (req: Request, _res: Response, next: NextFunction) => {
+    //console.log("User Pool ID: ",configs.awsCognitoUserPoolId)
+   // console.log("User Client ID: ",configs.awsCognitoClientId)
     try {
         const { methodConfig } = req;
+       // console.log("mehtod config: ", methodConfig)
         if (methodConfig.authRequired) {
             const token = req.cookies?.['access_token'];
-            if (!token) {  new Error(`Please login to continue`) }
+            // console.log("token: ",typeof token);
+            if (!token) {  new Error(`Please login to continue`);console.log("Please login to continue!") }
 
-            const payload = await verifier.verify(token);
-            if (!payload) {  new Error; }
-
+            // const payload = await verifier.verify(token);
+            // if (!payload) {  new Error; }
+            const payload = await checkVerifyToken(token);
             let role: string[] = [];
-            const userPayload = jwtDecode(req.cookies?.['id_token']);
+            const userPayload = jwtDecode(req.cookies?.['idToken']);
             console.log("userPayload", userPayload);
             // @ts-ignore
             if (userPayload['cognito:username'].includes('google')) {
@@ -121,7 +137,8 @@ const findRouteConfig = (path: string, routeConfigs: RouteConfig): RouteConfig |
 // Step 3: Attach the route configuration and method config to the request object
 const routeConfigMiddleware = (req: Request, _res: Response, next: NextFunction) => {
     const { path, method } = req;
-    console.log(path)
+    console.log("request path: ", path);
+    console.log("request method: ",method)
     // Step 1
     let routeConfig = null;
     for (const key in ROUTE_PATHS) {
